@@ -1,7 +1,8 @@
 package lk.spm.learning.management.repository;
 
 import lk.spm.learning.management.model.Item;
-import org.apache.catalina.User;
+
+import lk.spm.learning.management.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -2,7 +2,7 @@ package lk.spm.learning.management.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "Users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
