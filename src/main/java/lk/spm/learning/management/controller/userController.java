@@ -1,6 +1,7 @@
 package lk.spm.learning.management.controller;
 
 import lk.spm.learning.management.model.User;
+import lk.spm.learning.management.model.loginUser;
 import lk.spm.learning.management.repository.userRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,6 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000")
 
 @RestController
-@RequestMapping("/api/v1")
 public class userController {
     @Autowired
     private userRepository userRepository;
@@ -37,11 +37,12 @@ public class userController {
         }
     }
 
+
     //Add user
     @PostMapping("/user")
     public ResponseEntity<?> createUser( @RequestBody User user) {
         try {
-            new ResponseEntity(user, HttpStatus.OK);
+            System.out.println("user is " + user);
             userRepository.save(user);
             return new ResponseEntity<User>(user, HttpStatus.OK);
         } catch (Exception e){
@@ -79,12 +80,6 @@ public class userController {
         }else{
             return new ResponseEntity<>("No User Available", HttpStatus.NOT_FOUND);
         }
-    }
-
-
-    @PostMapping("/authorization")
-    public ResponseEntity<?> authorizeUser(){
-        return new ResponseEntity<>("Method need to be fixed", HttpStatus.NOT_FOUND);
     }
 
 
