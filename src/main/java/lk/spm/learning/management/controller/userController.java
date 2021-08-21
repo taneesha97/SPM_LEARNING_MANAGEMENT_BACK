@@ -14,17 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api")
 @RestController
 public class userController {
     @Autowired
     private userRepository userRepository;
-
-    private final Logger log = LoggerFactory.getLogger(userController.class);
-
-    public userController(userRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
 
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers(){
@@ -38,7 +32,7 @@ public class userController {
 
 
     //Add user
-    @PostMapping("/user")
+    @PostMapping("/useradd")
     public ResponseEntity<?> createUser( @RequestBody User user) {
         try {
             System.out.println("user is " + user);
@@ -51,7 +45,7 @@ public class userController {
 
     //Get Single user
     @GetMapping("/getsingleuser/{id}")
-    public ResponseEntity<?> getSingleUser(@PathVariable("id") String id){
+    public ResponseEntity<?> getSingleUser(@PathVariable("id") Long id){
         Optional<User> user = userRepository.findById(id);
         if(user.isPresent()){
             return new ResponseEntity<>(user.get(), HttpStatus.OK);
@@ -63,18 +57,18 @@ public class userController {
 
     //Update user
     @PutMapping("/updateuser/{id}")
-    public ResponseEntity<?> updateById(@PathVariable("id") String id, @RequestBody User user){
+    public ResponseEntity<?> updateById(@PathVariable("id") Long id, @RequestBody User user){
         Optional<User> userUpdate = Optional.ofNullable(userRepository.getById(id));
         System.out.println("user updated " + userUpdate.isPresent());
         if(userUpdate.isPresent()){
             User updateUser = userUpdate.get();
-            //updateUser.setId(user.getId()  != null ? user.getId() : updateUser.getId());
+            updateUser.setId(user.getId()  != 0 ? user.getId() : updateUser.getId());
             updateUser.setName(user.getName() != null ? user.getName() : updateUser.getName());
             updateUser.setEmail(user.getEmail() != null ? user.getEmail() : updateUser.getEmail());
             updateUser.setUsername(user.getUsername() != null ? user.getUsername() : updateUser.getUsername());
             updateUser.setPassword(user.getPassword() != null ? user.getPassword() : updateUser.getPassword());
             updateUser.setType(user.getType() != null ? user.getType() : updateUser.getType());
-            userRepository.save(user);
+            userRepository.save(updateUser);
             return new ResponseEntity<>("Update Successful", HttpStatus.OK);
         }else{
             return new ResponseEntity<>("No User Available", HttpStatus.NOT_FOUND);
@@ -84,9 +78,9 @@ public class userController {
 
     //Delete user
     @DeleteMapping("/deleteuser/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable("id") String id){
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Long id){
         userRepository.deleteById(id);
-        return new ResponseEntity<>("delete unsuccessful", HttpStatus.OK);
+        return new ResponseEntity<>("delete successful", HttpStatus.OK);
     }
 
 }
