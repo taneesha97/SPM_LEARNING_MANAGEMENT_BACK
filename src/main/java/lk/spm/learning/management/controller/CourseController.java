@@ -1,119 +1,75 @@
 package lk.spm.learning.management.controller;
 
 import lk.spm.learning.management.model.Course;
+import lk.spm.learning.management.model.User;
+import lk.spm.learning.management.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class CourseController {
 
     @Autowired
-//    TutorialRepository tutorialRepository;
+    CourseRepository courseRepository;
 
-    @GetMapping("/get")
-    public ResponseEntity<String> getAllTutorials() {
-//        try {
-//            List<Tutorial> tutorials = new ArrayList<Tutorial>();
-//
-//            if (title == null)
-//                tutorialRepository.findAll().forEach(tutorials::add);
-//            else
-//                tutorialRepository.findByTitleContaining(title).forEach(tutorials::add);
-//
-//            if (tutorials.isEmpty()) {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//
-//            return new ResponseEntity<>(tutorials, HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-        return new ResponseEntity<String>("Success Get", HttpStatus.CREATED);
+
+    //GET EMPLOYEES
+    @GetMapping("/courses")
+    public ResponseEntity<?> getCourse(){
+        List<Course> courses = courseRepository.findAll();
+        if(courses.size() > 0){
+            return new ResponseEntity<List<Course>>(courses, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("No Course Available", HttpStatus.NOT_FOUND);
+        }
+    }
+    //GET EMPLOYEE BY ID
+    @GetMapping("/courses/{id}")
+    public ResponseEntity<?> getCourseById(@PathVariable long id){
+
+        Optional<Course> courses = courseRepository.findById(id);
+        if(courses.isPresent()){
+            return new ResponseEntity<>(courses.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("No Course Available", HttpStatus.NOT_FOUND);
+        }
     }
 
-    @GetMapping("/tutorials/{id}")
-    public ResponseEntity<Course> getTutorialById(@PathVariable("id") long id) {
-//        Optional<Tutorial> tutorialData = tutorialRepository.findById(id);
-//
-//        if (tutorialData.isPresent()) {
-//            return new ResponseEntity<>(tutorialData.get(), HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-        return null;
+    //SAVE EMPLOYEE
+    @PostMapping("/course")
+    public ResponseEntity<?> createCourse(@RequestBody Course course){
+        try {
+            System.out.println("user is " + course);
+            courseRepository.save(course);
+            return new ResponseEntity<Course>(course, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+    //UPDATE EMPLOYEE
+    @PutMapping("course/{id}")
+    public ResponseEntity<?> updateCourse(@PathVariable(value = "id") Long employeeId, @RequestBody Course updatedCourse){
+        Optional<Course> yetToUpdate = courseRepository.findById(employeeId);
+        if(yetToUpdate.isPresent()) {
+            Course yetToUpdateEmployee = yetToUpdate.get();
+            yetToUpdateEmployee.setTitle(updatedCourse.getTitle());
+            yetToUpdateEmployee.setDescription(updatedCourse.getDescription());
+            yetToUpdateEmployee.setBody(updatedCourse.isBody());
+
+            //SAVE THE UPDATED USER.
+            courseRepository.save(yetToUpdateEmployee);
+            return new ResponseEntity<Course>(updatedCourse, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Course doesn't exist", HttpStatus.NOT_FOUND);
+        }
     }
 
-    @PostMapping("/post")
-    public ResponseEntity<String> createTutorial() {
-//        try {
-//            Tutorial _tutorial = tutorialRepository
-//                    .save(new Tutorial(tutorial.getTitle(), tutorial.getDescription(), false));
-//            return new ResponseEntity<>(_tutorial, HttpStatus.CREATED);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-
-        return new ResponseEntity<String>("Success Post", HttpStatus.CREATED);
-
-    }
-
-    @PutMapping("/tutorials/{id}")
-    public ResponseEntity<Course> updateTutorial(@PathVariable("id") long id, @RequestBody Course tutorial) {
-//        Optional<Tutorial> tutorialData = tutorialRepository.findById(id);
-//
-//        if (tutorialData.isPresent()) {
-//            Tutorial _tutorial = tutorialData.get();
-//            _tutorial.setTitle(tutorial.getTitle());
-//            _tutorial.setDescription(tutorial.getDescription());
-//            _tutorial.setPublished(tutorial.isPublished());
-//            return new ResponseEntity<>(tutorialRepository.save(_tutorial), HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-        return null;
-    }
-
-    @DeleteMapping("/tutorials/{id}")
-    public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") long id) {
-//        try {
-//            tutorialRepository.deleteById(id);
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-        return null;
-    }
-
-    @DeleteMapping("/tutorials")
-    public ResponseEntity<HttpStatus> deleteAllTutorials() {
-//        try {
-//            tutorialRepository.deleteAll();
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-        return null;
-
-    }
-
-    @GetMapping("/tutorials/published")
-    public ResponseEntity<List<Course>> findByPublished() {
-//        try {
-//            List<Tutorial> tutorials = tutorialRepository.findByPublished(true);
-//
-//            if (tutorials.isEmpty()) {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//            return new ResponseEntity<>(tutorials, HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-        return null;
-    }
+    //DELETE COURSE.
 }
