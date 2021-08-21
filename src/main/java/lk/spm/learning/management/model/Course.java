@@ -17,13 +17,13 @@ public class Course {
     private String description;
 
     @Column(name = "body")
-    private boolean body;
+    private String body;
 
     public Course() {
 
     }
 
-    public Course(String title, String description, boolean body) {
+    public Course(String title, String description, String body) {
         this.title = title;
         this.description = description;
         this.body = body;
@@ -49,11 +49,12 @@ public class Course {
         this.description = description;
     }
 
-    public boolean isBody() {
+    public String isBody() {
         return body;
     }
 
-    public void setBody(boolean isPublished) {
+    public void setBody(String isPublished) {
+
         this.body = isPublished;
     }
 
