@@ -2,12 +2,12 @@ package lk.spm.learning.management.controller;
 
 import lk.spm.learning.management.model.User;
 import lk.spm.learning.management.model.loginUser;
+import lk.spm.learning.management.repository.loginUserRepository;
 import lk.spm.learning.management.repository.userRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +19,10 @@ import java.util.Optional;
 public class userController {
     @Autowired
     private userRepository userRepository;
+
+    @Autowired
+    private loginUserRepository loginUserRepository;
+
 
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers(){
@@ -40,6 +44,19 @@ public class userController {
             return new ResponseEntity<User>(user, HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //Get User Method.
+    @PostMapping("/validate")
+    public ResponseEntity<?> validateUser (@RequestBody User user){
+        System.out.println("user name2 " + user.getUsername());
+        System.out.println("user name2 " +loginUserRepository.validateUser(user));
+        String userType = loginUserRepository.validateUser(user);
+        try {
+            return new ResponseEntity<>(userType , HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage() , HttpStatus.OK);
         }
     }
 
@@ -82,6 +99,9 @@ public class userController {
         userRepository.deleteById(id);
         return new ResponseEntity<>("delete successful", HttpStatus.OK);
     }
+
+
+
 
 }
 

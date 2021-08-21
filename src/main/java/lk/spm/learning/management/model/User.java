@@ -1,5 +1,6 @@
 package lk.spm.learning.management.model;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 
@@ -17,9 +18,11 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @NonNull
     @Column(name = "username")
     private String username;
 
+    @NonNull
     @Column(name = "password")
     private String password;
 
