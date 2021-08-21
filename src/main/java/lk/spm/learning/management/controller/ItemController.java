@@ -22,7 +22,8 @@ public class ItemController {
 
     //Add item
     @PostMapping("/item")
-    public ResponseEntity<?> createItem(@RequestBody Item item) {
+    public ResponseEntity<?> createItem() {
+        System.out.println("Hi");
         return null;
     }
 

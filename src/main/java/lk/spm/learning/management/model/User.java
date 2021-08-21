@@ -6,14 +6,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Users")
 public class User {
+
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Column(updatable = false, nullable = false)
-    private String userId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     @Column(name = "name")
     private String name;
@@ -30,12 +26,12 @@ public class User {
     @Column(name = "type")
     private String type;
 
-    public String getId() {
-        return userId;
+    public long getId() {
+        return id;
     }
 
-    public void setId(String userId) {
-        this.userId = userId;
+    public void setId(long userId) {
+        this.id = userId;
     }
 
     public String getName() {
