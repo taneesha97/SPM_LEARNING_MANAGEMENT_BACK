@@ -61,7 +61,7 @@ public class CourseController {
             Course yetToUpdateEmployee = yetToUpdate.get();
             yetToUpdateEmployee.setTitle(updatedCourse.getTitle());
             yetToUpdateEmployee.setDescription(updatedCourse.getDescription());
-            yetToUpdateEmployee.setBody(updatedCourse.isBody());
+            yetToUpdateEmployee.setBody(updatedCourse.getBody());
 
             //SAVE THE UPDATED USER.
             courseRepository.save(yetToUpdateEmployee);
