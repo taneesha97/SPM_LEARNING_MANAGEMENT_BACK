@@ -23,6 +23,8 @@ public class userController {
     @Autowired
     private loginUserRepository loginUserRepository;
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers(){
@@ -31,6 +33,27 @@ public class userController {
             return new ResponseEntity<List<User>>(users, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("No User Available", HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    @GetMapping("/students")
+    public ResponseEntity<?> getAllStudents(){
+        List<User> users = loginUserRepository.getStudentList();
+        try {
+            return new ResponseEntity<>(users , HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage() , HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/teachers")
+    public ResponseEntity<?> getAllTeachers(){
+        List<User> users = loginUserRepository.getTeacherList();
+        try {
+            return new ResponseEntity<>(users , HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage() , HttpStatus.OK);
         }
     }
 

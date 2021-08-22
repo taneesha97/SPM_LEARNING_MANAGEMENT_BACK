@@ -1,5 +1,6 @@
 package lk.spm.learning.management.repository.Impl;
 
+import lk.spm.learning.management.mappers.PersonMapper;
 import lk.spm.learning.management.model.User;
 import lk.spm.learning.management.repository.loginUserRepository;
 import lk.spm.learning.management.repository.userRepository;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 import static lk.spm.learning.management.repository.Impl.Query.USERS;
 
@@ -26,5 +29,21 @@ public class UserImplementation implements loginUserRepository {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public List<User> getStudentList() {
+        String sql = "SELECT * FROM users WHERE type = 'student' ";
+        List<User> users = jdbcTemplate.query(sql, new PersonMapper());
+        System.out.println(users);
+        return users;
+    }
+
+    @Override
+    public List<User> getTeacherList() {
+        String sql = "SELECT * FROM users WHERE type = 'teacher' ";
+        List<User> users = jdbcTemplate.query(sql, new PersonMapper());
+        System.out.println(users);
+        return users;
     }
 }

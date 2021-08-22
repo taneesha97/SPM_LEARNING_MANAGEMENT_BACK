@@ -5,7 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 @Repository
 public interface loginUserRepository {
     String validateUser (@RequestBody User user);
+//    List<User>  getStudentList();//User
+    List<User> getStudentList();
+    List<User> getTeacherList();
 }
