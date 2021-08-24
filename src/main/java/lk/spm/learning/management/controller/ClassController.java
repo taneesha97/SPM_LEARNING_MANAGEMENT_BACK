@@ -73,6 +73,12 @@ public class ClassController {
         }
     }
 
+    //Delete class
+    @DeleteMapping("/deleteclass/{id}")
+    public ResponseEntity<?> deleteClass(@PathVariable("id") Long id){
+        classRepository.deleteById(id);
+        return new ResponseEntity<>("delete successful", HttpStatus.OK);
+    }
 
 
 }
