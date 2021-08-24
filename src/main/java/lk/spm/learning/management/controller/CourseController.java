@@ -1,7 +1,6 @@
 package lk.spm.learning.management.controller;
 
 import lk.spm.learning.management.model.Course;
-import lk.spm.learning.management.model.User;
 import lk.spm.learning.management.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -72,4 +71,13 @@ public class CourseController {
     }
 
     //DELETE COURSE.
+    @DeleteMapping("delete/course/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable("id") Long courseId ){
+        try {
+            courseRepository.deleteById(courseId);
+            return new ResponseEntity<String>("Item Deleted" + courseId, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 }
