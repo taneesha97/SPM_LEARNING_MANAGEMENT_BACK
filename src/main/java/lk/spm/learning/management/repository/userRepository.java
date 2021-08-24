@@ -12,11 +12,6 @@ import javax.persistence.NamedQuery;
 
 @Repository
 public interface userRepository extends JpaRepository<User, Long>{
-    //@NamedQuery( "{ 'userName' : ?0, 'password' : ?0 }")
-    //@Query("SELECT u.username FROM User  u WHERE u.username = 'salitha'")
-//    @Query(name = "username")
-//    @Query("SELECT u.username FROM User  u WHERE u.username = 'salitha'")
-//    User findUserByUsername(String username);
 
 }
 
