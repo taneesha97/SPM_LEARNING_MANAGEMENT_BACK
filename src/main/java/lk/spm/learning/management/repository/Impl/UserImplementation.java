@@ -46,4 +46,16 @@ public class UserImplementation implements loginUserRepository {
         System.out.println(users);
         return users;
     }
+
+    @Override
+    public String getTeacherStatus(User user) {
+        String sql = "SELECT status FROM users WHERE username=? AND password=?";
+        try {
+            String status = jdbcTemplate.queryForObject(sql, new Object[] {
+                    user.getUsername(), user.getPassword() }, String.class);
+            return status;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

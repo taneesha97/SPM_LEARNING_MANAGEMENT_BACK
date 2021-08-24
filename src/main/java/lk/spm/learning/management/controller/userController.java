@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,9 +76,14 @@ public class userController {
     public ResponseEntity<?> validateUser (@RequestBody User user){
         System.out.println("user name2 " + user.getUsername());
         System.out.println("user name2 " +loginUserRepository.validateUser(user));
+        System.out.println("user name3 " +loginUserRepository.getTeacherStatus(user));
         String userType = loginUserRepository.validateUser(user);
+        String status = loginUserRepository.getTeacherStatus(user);
+        ArrayList<String> list = new ArrayList<String>();
+        list.add(status);
+        list.add(userType);
         try {
-            return new ResponseEntity<>(userType , HttpStatus.OK);
+            return new ResponseEntity<>(list , HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage() , HttpStatus.OK);
         }

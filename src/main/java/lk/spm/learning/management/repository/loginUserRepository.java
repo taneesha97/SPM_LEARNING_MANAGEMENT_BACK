@@ -13,4 +13,5 @@ public interface loginUserRepository {
 //    List<User>  getStudentList();//User
     List<User> getStudentList();
     List<User> getTeacherList();
+    String getTeacherStatus(@RequestBody User user);
 }
