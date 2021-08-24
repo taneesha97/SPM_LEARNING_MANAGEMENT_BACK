@@ -1,5 +1,6 @@
 package lk.spm.learning.management.model;
 import javax.persistence.*;
+import java.sql.Blob;
 
 @Entity
 @Table(name = "classes")
