@@ -22,6 +22,9 @@ public class User {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "status")
+    private String status;
+
     @NonNull
     @Column(name = "password")
     private String password;
@@ -75,5 +78,13 @@ public class User {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

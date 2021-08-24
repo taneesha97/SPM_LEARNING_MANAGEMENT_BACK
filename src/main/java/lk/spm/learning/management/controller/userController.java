@@ -106,6 +106,7 @@ public class userController {
             updateUser.setName(user.getName() != null ? user.getName() : updateUser.getName());
             updateUser.setEmail(user.getEmail() != null ? user.getEmail() : updateUser.getEmail());
             updateUser.setUsername(user.getUsername() != null ? user.getUsername() : updateUser.getUsername());
+            updateUser.setStatus(user.getStatus() != null ? user.getStatus() : updateUser.getStatus());
             updateUser.setPassword(user.getPassword() != null ? user.getPassword() : updateUser.getPassword());
             updateUser.setType(user.getType() != null ? user.getType() : updateUser.getType());
             userRepository.save(updateUser);
