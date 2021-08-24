@@ -75,6 +75,9 @@ public class Class {
 
     @Override
     public String toString() {
-        return "Tutorial [id=" + id + ", name=" + name + ", desc=" + description + ", tutorName=" + tutorName + ", image=" + image +"]";
+        return "Tutorial [id=" + id + ", name=" + name + ", desc=" + description + ", tutorName=" + tutorName + "]";
     }
+
+
+
 }
