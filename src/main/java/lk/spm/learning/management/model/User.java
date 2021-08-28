@@ -5,7 +5,7 @@ import org.springframework.lang.NonNull;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "Users", uniqueConstraints=@UniqueConstraint(columnNames="username"))
 public class User {
 
     @Id
