@@ -78,6 +78,18 @@ public class userController {
         }
     }
 
+    @GetMapping("/teachercount")
+    public ResponseEntity<?> getTeacherCount(){
+        List<User> users = loginUserRepository.getTeacherList();
+        return new ResponseEntity<>(users.size(), HttpStatus.OK);
+    }
+
+    @GetMapping("/studentcount")
+    public ResponseEntity<?> getStudentCount(){
+        List<User> users = loginUserRepository.getStudentList();
+        return new ResponseEntity<>(users.size(), HttpStatus.OK);
+    }
+
 
     //Add user
     @PostMapping("/useradd")
