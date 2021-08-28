@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +54,25 @@ public class userController {
         List<User> users = loginUserRepository.getTeacherList();
         try {
             return new ResponseEntity<>(users , HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage() , HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/teachername")
+    public ResponseEntity<?> getAllTeachernames(){
+        List<User> users = loginUserRepository.getTeacherList();
+        try {
+            List<String> teachers = new ArrayList<>();
+            if(users.size() > 0){
+                for (User i : users){
+                    teachers.add(i.getName());
+                }
+                 return new ResponseEntity<>(teachers, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("No Teachers", HttpStatus.NOT_FOUND);
+            }
+
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage() , HttpStatus.OK);
         }
