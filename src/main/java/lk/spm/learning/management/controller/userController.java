@@ -30,7 +30,7 @@ public class userController {
 
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers(){
-        List<User> users = userRepository.findAll();
+        List<User> users = loginUserRepository.getUserList();
         if(users.size() > 0){
             return new ResponseEntity<List<User>>(users, HttpStatus.OK);
         } else {
