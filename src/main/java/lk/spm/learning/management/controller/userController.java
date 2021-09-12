@@ -122,7 +122,7 @@ public class userController {
         System.out.println("user updated " + userUpdate.isPresent());
         if(userUpdate.isPresent()){
             User updateUser = userUpdate.get();
-            updateUser.setId(user.getId()  != 0 ? user.getId() : updateUser.getId());
+            //updateUser.setId(user.getId()  != 0 ? user.getId() : updateUser.getId());
             updateUser.setName(user.getName() != null ? user.getName() : updateUser.getName());
             updateUser.setEmail(user.getEmail() != null ? user.getEmail() : updateUser.getEmail());
             updateUser.setUsername(user.getUsername() != null ? user.getUsername() : updateUser.getUsername());
