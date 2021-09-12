@@ -48,6 +48,14 @@ public class UserImplementation implements loginUserRepository {
     }
 
     @Override
+    public List<User> getUserList() {
+        String sql = "SELECT * FROM users order by id";
+        List<User> users = jdbcTemplate.query(sql, new PersonMapper());
+        System.out.println(users);
+        return users;
+    }
+
+    @Override
     public String getTeacherStatus(User user) {
         String sql = "SELECT status FROM users WHERE username=? AND password=?";
         try {
