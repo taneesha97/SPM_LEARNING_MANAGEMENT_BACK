@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +30,7 @@ public class userController {
 
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers(){
-        List<User> users = userRepository.findAll();
+        List<User> users = loginUserRepository.getUserList();
         if(users.size() > 0){
             return new ResponseEntity<List<User>>(users, HttpStatus.OK);
         } else {
@@ -56,6 +57,19 @@ public class userController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage() , HttpStatus.OK);
         }
+    }
+
+
+    @GetMapping("/teachercount")
+    public ResponseEntity<?> getTeacherCount(){
+        List<User> users = loginUserRepository.getTeacherList();
+        return new ResponseEntity<>(users.size(), HttpStatus.OK);
+    }
+
+    @GetMapping("/studentcount")
+    public ResponseEntity<?> getStudentCount(){
+        List<User> users = loginUserRepository.getStudentList();
+        return new ResponseEntity<>(users.size(), HttpStatus.OK);
     }
 
 
@@ -108,7 +122,7 @@ public class userController {
         System.out.println("user updated " + userUpdate.isPresent());
         if(userUpdate.isPresent()){
             User updateUser = userUpdate.get();
-            updateUser.setId(user.getId()  != 0 ? user.getId() : updateUser.getId());
+            //updateUser.setId(user.getId()  != 0 ? user.getId() : updateUser.getId());
             updateUser.setName(user.getName() != null ? user.getName() : updateUser.getName());
             updateUser.setEmail(user.getEmail() != null ? user.getEmail() : updateUser.getEmail());
             updateUser.setUsername(user.getUsername() != null ? user.getUsername() : updateUser.getUsername());
