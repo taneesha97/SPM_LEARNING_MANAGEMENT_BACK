@@ -43,6 +43,17 @@ public class AnnouncementController {
         }
     }
 
+    //add Announcement
+    @PostMapping("/announcement")
+    public ResponseEntity<?> createAnnouncement(@RequestBody Announcement announcement){
+        try {
+            System.out.println("class is " + announcement);
+            announcementRepository.save(announcement);
+            return new ResponseEntity<Announcement>(announcement, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 
 
 
