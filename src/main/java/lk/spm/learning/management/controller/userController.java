@@ -128,6 +128,7 @@ public class userController {
             //updateUser.setId(user.getId()  != 0 ? user.getId() : updateUser.getId());
             updateUser.setName(user.getName() != null ? user.getName() : updateUser.getName());
             updateUser.setEmail(user.getEmail() != null ? user.getEmail() : updateUser.getEmail());
+            updateUser.setAge(user.getAge() != null ? user.getAge() : updateUser.getAge());
             updateUser.setUsername(user.getUsername() != null ? user.getUsername() : updateUser.getUsername());
             updateUser.setStatus(user.getStatus() != null ? user.getStatus() : updateUser.getStatus());
             updateUser.setPassword(user.getPassword() != null ? user.getPassword() : updateUser.getPassword());
