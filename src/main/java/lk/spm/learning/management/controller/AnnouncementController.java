@@ -1,9 +1,6 @@
 package lk.spm.learning.management.controller;
-
 import lk.spm.learning.management.model.Announcement;
-import lk.spm.learning.management.model.Class;
 import lk.spm.learning.management.repository.AnnouncementRepository;
-import lk.spm.learning.management.repository.ClassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +52,30 @@ public class AnnouncementController {
         }
     }
 
+    //update class
+    @PutMapping("announcement/{id}")
+    public ResponseEntity<?> updateAnnouncement(@PathVariable(value = "id") Long employeeId, @RequestBody Announcement updateAnnouncement){
+        Optional<Announcement> yetToUpdate = announcementRepository.findById(employeeId);
+        if(yetToUpdate.isPresent()) {
+            Announcement yetToUpdateEmployee = yetToUpdate.get();
+            yetToUpdateEmployee.setHeader(updateAnnouncement.getHeader());
+            yetToUpdateEmployee.setBody(updateAnnouncement.getBody());
+            yetToUpdateEmployee.setName(updateAnnouncement.getName());
 
+            //SAVE THE UPDATED USER.
+            announcementRepository.save(yetToUpdateEmployee);
+            return new ResponseEntity<Announcement>(updateAnnouncement, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Announcement doesn't exist", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //Delete class
+    @DeleteMapping("/deleteannouncement/{id}")
+    public ResponseEntity<?> deleteAnnouncement(@PathVariable("id") Long id){
+        announcementRepository.deleteById(id);
+        return new ResponseEntity<>("delete successful", HttpStatus.OK);
+    }
 
 
 }
