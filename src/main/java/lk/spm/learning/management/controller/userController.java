@@ -77,7 +77,7 @@ public class userController {
     @PostMapping("/useradd")
     public ResponseEntity<?> createUser( @RequestBody User user) {
         try {
-            System.out.println("user is " + user);
+            System.out.println("user is " + user.getPassword());
             userRepository.save(user);
             return new ResponseEntity<User>(user, HttpStatus.OK);
         } catch (Exception e){
@@ -88,10 +88,7 @@ public class userController {
     //Get User Method.
     @PostMapping("/validate")
     public ResponseEntity<?> validateUser (@RequestBody User user){
-        System.out.println("user name2 " + user.getUsername());
-        System.out.println("user name2 " +loginUserRepository.validateUser(user));
-        System.out.println("user name3 " +loginUserRepository.getTeacherStatus(user));
-        System.out.println("id " +loginUserRepository.getUserID(user));
+        System.out.println("user is " + user.getPassword());
         String userType = loginUserRepository.validateUser(user);
         String status = loginUserRepository.getTeacherStatus(user);
         String id = loginUserRepository.getUserID(user);
