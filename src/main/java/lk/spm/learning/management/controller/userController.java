@@ -77,7 +77,7 @@ public class userController {
     @PostMapping("/useradd")
     public ResponseEntity<?> createUser( @RequestBody User user) {
         try {
-            System.out.println("user is " + user);
+            System.out.println("user is " + user.getPassword());
             userRepository.save(user);
             return new ResponseEntity<User>(user, HttpStatus.OK);
         } catch (Exception e){
@@ -88,16 +88,11 @@ public class userController {
     //Get User Method.
     @PostMapping("/validate")
     public ResponseEntity<?> validateUser (@RequestBody User user){
-        System.out.println("user name2 " + user.getUsername());
-        System.out.println("user name2 " +loginUserRepository.validateUser(user));
-        System.out.println("user name3 " +loginUserRepository.getTeacherStatus(user));
-        String userType = loginUserRepository.validateUser(user);
-        String status = loginUserRepository.getTeacherStatus(user);
-        ArrayList<String> list = new ArrayList<String>();
-        list.add(status);
-        list.add(userType);
+        System.out.println("id " +loginUserRepository.getUserID(user));
+        System.out.println("all data " +userRepository.findById(Long.valueOf(loginUserRepository.getUserID(user))).get());
+        Optional<User> users = userRepository.findById(Long.valueOf(loginUserRepository.getUserID(user)));
         try {
-            return new ResponseEntity<>(list , HttpStatus.OK);
+            return new ResponseEntity<>(users.get() , HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage() , HttpStatus.OK);
         }
@@ -125,6 +120,7 @@ public class userController {
             //updateUser.setId(user.getId()  != 0 ? user.getId() : updateUser.getId());
             updateUser.setName(user.getName() != null ? user.getName() : updateUser.getName());
             updateUser.setEmail(user.getEmail() != null ? user.getEmail() : updateUser.getEmail());
+            updateUser.setAge(user.getAge() != null ? user.getAge() : updateUser.getAge());
             updateUser.setUsername(user.getUsername() != null ? user.getUsername() : updateUser.getUsername());
             updateUser.setStatus(user.getStatus() != null ? user.getStatus() : updateUser.getStatus());
             updateUser.setPassword(user.getPassword() != null ? user.getPassword() : updateUser.getPassword());
