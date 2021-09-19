@@ -13,5 +13,7 @@ public interface loginUserRepository {
 //    List<User>  getStudentList();//User
     List<User> getStudentList();
     List<User> getTeacherList();
+    List<User> getUserList();
     String getTeacherStatus(@RequestBody User user);
+    String getUserID(@RequestBody User user);
 }

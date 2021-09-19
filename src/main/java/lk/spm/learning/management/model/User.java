@@ -5,7 +5,7 @@ import org.springframework.lang.NonNull;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "Users", uniqueConstraints=@UniqueConstraint(columnNames="username"))
 public class User {
 
     @Id
@@ -17,6 +17,9 @@ public class User {
 
     @Column(name = "email")
     private String email;
+
+    @Column(name = "age")
+    private String age;
 
     @NonNull
     @Column(name = "username")
@@ -86,5 +89,13 @@ public class User {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 }

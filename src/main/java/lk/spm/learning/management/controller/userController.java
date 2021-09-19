@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +30,7 @@ public class userController {
 
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers(){
-        List<User> users = userRepository.findAll();
+        List<User> users = loginUserRepository.getUserList();
         if(users.size() > 0){
             return new ResponseEntity<List<User>>(users, HttpStatus.OK);
         } else {
@@ -59,11 +60,24 @@ public class userController {
     }
 
 
+    @GetMapping("/teachercount")
+    public ResponseEntity<?> getTeacherCount(){
+        List<User> users = loginUserRepository.getTeacherList();
+        return new ResponseEntity<>(users.size(), HttpStatus.OK);
+    }
+
+    @GetMapping("/studentcount")
+    public ResponseEntity<?> getStudentCount(){
+        List<User> users = loginUserRepository.getStudentList();
+        return new ResponseEntity<>(users.size(), HttpStatus.OK);
+    }
+
+
     //Add user
     @PostMapping("/useradd")
     public ResponseEntity<?> createUser( @RequestBody User user) {
         try {
-            System.out.println("user is " + user);
+            System.out.println("user is " + user.getPassword());
             userRepository.save(user);
             return new ResponseEntity<User>(user, HttpStatus.OK);
         } catch (Exception e){
@@ -74,16 +88,11 @@ public class userController {
     //Get User Method.
     @PostMapping("/validate")
     public ResponseEntity<?> validateUser (@RequestBody User user){
-        System.out.println("user name2 " + user.getUsername());
-        System.out.println("user name2 " +loginUserRepository.validateUser(user));
-        System.out.println("user name3 " +loginUserRepository.getTeacherStatus(user));
-        String userType = loginUserRepository.validateUser(user);
-        String status = loginUserRepository.getTeacherStatus(user);
-        ArrayList<String> list = new ArrayList<String>();
-        list.add(status);
-        list.add(userType);
+        System.out.println("id " +loginUserRepository.getUserID(user));
+        System.out.println("all data " +userRepository.findById(Long.valueOf(loginUserRepository.getUserID(user))).get());
+        Optional<User> users = userRepository.findById(Long.valueOf(loginUserRepository.getUserID(user)));
         try {
-            return new ResponseEntity<>(list , HttpStatus.OK);
+            return new ResponseEntity<>(users.get() , HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage() , HttpStatus.OK);
         }
@@ -108,15 +117,17 @@ public class userController {
         System.out.println("user updated " + userUpdate.isPresent());
         if(userUpdate.isPresent()){
             User updateUser = userUpdate.get();
-            updateUser.setId(user.getId()  != 0 ? user.getId() : updateUser.getId());
+            //updateUser.setId(user.getId()  != 0 ? user.getId() : updateUser.getId());
             updateUser.setName(user.getName() != null ? user.getName() : updateUser.getName());
             updateUser.setEmail(user.getEmail() != null ? user.getEmail() : updateUser.getEmail());
+            updateUser.setAge(user.getAge() != null ? user.getAge() : updateUser.getAge());
             updateUser.setUsername(user.getUsername() != null ? user.getUsername() : updateUser.getUsername());
             updateUser.setStatus(user.getStatus() != null ? user.getStatus() : updateUser.getStatus());
             updateUser.setPassword(user.getPassword() != null ? user.getPassword() : updateUser.getPassword());
             updateUser.setType(user.getType() != null ? user.getType() : updateUser.getType());
-            userRepository.save(updateUser);
-            return new ResponseEntity<>("Update Successful", HttpStatus.OK);
+            User value = userRepository.save(updateUser);
+            //System.out.println("hi " + updateUser);
+            return new ResponseEntity<>(value, HttpStatus.OK);
         }else{
             return new ResponseEntity<>("No User Available", HttpStatus.NOT_FOUND);
         }
