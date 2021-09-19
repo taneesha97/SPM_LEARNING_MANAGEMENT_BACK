@@ -31,6 +31,15 @@ public class FileModel {
         this.type = type;
     }
 
+    public FileModel(String name, String uri, String type, String price, String description, String course) {
+        this.name = name;
+        this.uri = uri;
+        this.type = type;
+        this.price = price;
+        this.description = description;
+        this.course = course;
+    }
+
     public String getName() {
         return name;
     }
