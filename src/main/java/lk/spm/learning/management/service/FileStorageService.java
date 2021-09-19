@@ -2,7 +2,6 @@ package lk.spm.learning.management.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,14 +13,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 
 @Service
 public class FileStorageService {
 
-    private Path fileStoragePath;
-    private String fileStorageLocation;
+    private final Path fileStoragePath;
+    private final String fileStorageLocation;
 
-    public FileStorageService (@Value("${file.storage.location:temp") String fileStorageLocation){
+    public FileStorageService (@Value("${file.storage.location:temp}") String fileStorageLocation){
         this.fileStorageLocation = fileStorageLocation;
         fileStoragePath = Paths.get(fileStorageLocation).toAbsolutePath().normalize();
 
@@ -33,7 +33,7 @@ public class FileStorageService {
     }
 
     public String storeFile (MultipartFile file){
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         Path filePath = Paths.get(fileStoragePath + "\\" + fileName);
 
         try {
