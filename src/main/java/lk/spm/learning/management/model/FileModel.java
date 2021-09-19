@@ -1,6 +1,16 @@
 package lk.spm.learning.management.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name="files")
 public class FileModel {
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
     private String name;
     private String uri;
     private String type;
@@ -8,11 +18,26 @@ public class FileModel {
     private String price;
     private String description;
     private String course;
+    @Lob
+    private byte[] data;
+
+    public FileModel(){
+
+    }
 
     public FileModel(String name, String uri, String type) {
         this.name = name;
         this.uri = uri;
         this.type = type;
+    }
+
+    public FileModel(String name, String uri, String type, String price, String description, String course) {
+        this.name = name;
+        this.uri = uri;
+        this.type = type;
+        this.price = price;
+        this.description = description;
+        this.course = course;
     }
 
     public String getName() {
