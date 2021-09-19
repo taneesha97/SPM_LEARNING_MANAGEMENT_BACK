@@ -6,6 +6,7 @@ import org.apache.tomcat.util.http.fileupload.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -34,10 +36,9 @@ public class FileController {
                 .path("/download/")
                 .path(fileName)
                 .toUriString();
-
         String contentType = file.getContentType();
+        fileStorageService.saveFilesToTheDatabase(fileName, url, contentType);
         FileModel response = new FileModel(fileName, url, contentType);
-
         return response;
     }
 
@@ -58,8 +59,12 @@ public class FileController {
                 .body(resource);
     }
 
-    // Method to save the uploaded files in the database.
-    public void saveFilesToTheDatabase() {
-
+    ResponseEntity<?> getAllFiles(){
+        List<FileModel> files = fileStorageService.getAllFiles();
+        if(files.size() > 0){
+            return new ResponseEntity<>(files, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("No Files Available", HttpStatus.NOT_FOUND);
+        }
     }
 }
