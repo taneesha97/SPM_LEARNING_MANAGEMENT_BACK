@@ -59,6 +59,7 @@ public class FileController {
                 .body(resource);
     }
 
+    @GetMapping("/files")
     ResponseEntity<?> getAllFiles(){
         List<FileModel> files = fileStorageService.getAllFiles();
         if(files.size() > 0){

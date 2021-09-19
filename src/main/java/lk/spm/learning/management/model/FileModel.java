@@ -21,6 +21,10 @@ public class FileModel {
     @Lob
     private byte[] data;
 
+    public FileModel(){
+
+    }
+
     public FileModel(String name, String uri, String type) {
         this.name = name;
         this.uri = uri;
