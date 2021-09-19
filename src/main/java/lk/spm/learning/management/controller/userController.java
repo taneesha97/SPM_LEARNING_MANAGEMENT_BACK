@@ -125,8 +125,9 @@ public class userController {
             updateUser.setStatus(user.getStatus() != null ? user.getStatus() : updateUser.getStatus());
             updateUser.setPassword(user.getPassword() != null ? user.getPassword() : updateUser.getPassword());
             updateUser.setType(user.getType() != null ? user.getType() : updateUser.getType());
-            userRepository.save(updateUser);
-            return new ResponseEntity<>("Update Successful", HttpStatus.OK);
+            User value = userRepository.save(updateUser);
+            //System.out.println("hi " + updateUser);
+            return new ResponseEntity<>(value, HttpStatus.OK);
         }else{
             return new ResponseEntity<>("No User Available", HttpStatus.NOT_FOUND);
         }
