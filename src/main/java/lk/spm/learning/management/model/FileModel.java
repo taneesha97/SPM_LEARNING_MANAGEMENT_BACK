@@ -5,12 +5,14 @@ public class FileModel {
     private String uri;
     private String type;
     private long size;
+    private String price;
+    private String description;
+    private String course;
 
-    public FileModel(String name, String uri, String type, long size) {
+    public FileModel(String name, String uri, String type) {
         this.name = name;
         this.uri = uri;
         this.type = type;
-        this.size = size;
     }
 
     public String getName() {
