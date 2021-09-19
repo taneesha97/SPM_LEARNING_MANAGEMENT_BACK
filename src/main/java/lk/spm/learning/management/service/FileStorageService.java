@@ -38,6 +38,8 @@ public class FileStorageService {
 
         try {
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+            // Write the files to the database.
+
         } catch (IOException e){
             throw new RuntimeException("Storing file error");
         }
