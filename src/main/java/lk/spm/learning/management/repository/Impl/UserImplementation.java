@@ -33,7 +33,7 @@ public class UserImplementation implements loginUserRepository {
 
     @Override
     public List<User> getStudentList() {
-        String sql = "SELECT * FROM users WHERE type = 'student' ";
+        String sql = "SELECT * FROM users WHERE type = 'student' order by id";
         List<User> users = jdbcTemplate.query(sql, new PersonMapper());
         System.out.println(users);
         return users;
@@ -41,7 +41,15 @@ public class UserImplementation implements loginUserRepository {
 
     @Override
     public List<User> getTeacherList() {
-        String sql = "SELECT * FROM users WHERE type = 'teacher' ";
+        String sql = "SELECT * FROM users WHERE type = 'teacher' order by id";
+        List<User> users = jdbcTemplate.query(sql, new PersonMapper());
+        System.out.println(users);
+        return users;
+    }
+
+    @Override
+    public List<User> getUserList() {
+        String sql = "SELECT * FROM users order by id";
         List<User> users = jdbcTemplate.query(sql, new PersonMapper());
         System.out.println(users);
         return users;
@@ -54,6 +62,18 @@ public class UserImplementation implements loginUserRepository {
             String status = jdbcTemplate.queryForObject(sql, new Object[] {
                     user.getUsername(), user.getPassword() }, String.class);
             return status;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public String getUserID(User user) {
+        String sql = "SELECT id FROM users WHERE username=? AND password=?";
+        try {
+            String id = jdbcTemplate.queryForObject(sql, new Object[] {
+                    user.getUsername(), user.getPassword() }, String.class);
+            return id;
         } catch (Exception e) {
             return null;
         }
