@@ -18,6 +18,7 @@ public class FileModel {
     private String price;
     private String description;
     private String course;
+    private String userGivenName;
     @Lob
     private byte[] data;
 
@@ -31,13 +32,14 @@ public class FileModel {
         this.type = type;
     }
 
-    public FileModel(String name, String uri, String type, String price, String description, String course) {
+    public FileModel(String name, String uri, String type, String price, String description, String course, String userGivenName) {
         this.name = name;
         this.uri = uri;
         this.type = type;
         this.price = price;
         this.description = description;
         this.course = course;
+        this.userGivenName = userGivenName;
     }
 
     public String getName() {
@@ -70,5 +72,13 @@ public class FileModel {
 
     public void setSize(long size) {
         this.size = size;
+    }
+
+    public String getUserGivenName() {
+        return userGivenName;
+    }
+
+    public void setUserGivenName(String userGivenName) {
+        this.userGivenName = userGivenName;
     }
 }

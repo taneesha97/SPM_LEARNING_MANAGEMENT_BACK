@@ -1,5 +1,4 @@
 package lk.spm.learning.management.controller;
-
 import lk.spm.learning.management.model.FileModel;
 import lk.spm.learning.management.service.FileStorageService;
 import org.apache.tomcat.util.http.fileupload.FileUpload;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -39,14 +37,13 @@ public class FileController {
                                @RequestParam("description")String description
     ){
         String fileName = fileStorageService.storeFile(file);
-        System.out.println(name);
         String url = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/download/")
                 .path(fileName)
                 .toUriString();
         String contentType = file.getContentType();
-        fileStorageService.saveFilesToTheDatabase(fileName, url, contentType);
-        FileModel response = new FileModel(fileName, url, contentType);
+        fileStorageService.saveFilesToTheDatabase(fileName, url, contentType,price, description, course, name);
+        FileModel response = new FileModel(fileName, url, contentType,price, description, course, name);
         return response;
     }
 
