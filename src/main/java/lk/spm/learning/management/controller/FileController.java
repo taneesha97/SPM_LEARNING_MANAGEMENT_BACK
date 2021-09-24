@@ -15,8 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -30,8 +32,14 @@ public class FileController {
     }
 
     @PostMapping("single/upload")
-    FileModel singleFileUpload(@RequestParam("file")MultipartFile file){
+    FileModel singleFileUpload(@RequestParam("file")MultipartFile file,
+                               @RequestParam("name")String name,
+                               @RequestParam("price")String price,
+                               @RequestParam("course")String course,
+                               @RequestParam("description")String description
+    ){
         String fileName = fileStorageService.storeFile(file);
+        System.out.println(name);
         String url = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/download/")
                 .path(fileName)
