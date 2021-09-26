@@ -62,10 +62,16 @@ public class userController {
     }
 
 
-    @GetMapping("/teachercount")
+    @GetMapping("/usercount")
     public ResponseEntity<?> getTeacherCount(){
-        List<User> users = loginUserRepository.getTeacherList();
-        return new ResponseEntity<>(users.size(), HttpStatus.OK);
+        List<User> teachers = loginUserRepository.getTeacherList();
+        List<User> students = loginUserRepository.getStudentList();
+        List<User> user = loginUserRepository.getUserList();
+        ArrayList users = new ArrayList();
+        users.add(teachers.size());
+        users.add(students.size());
+        users.add(user.size());
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/studentcount")
