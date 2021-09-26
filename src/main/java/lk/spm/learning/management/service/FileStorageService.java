@@ -69,8 +69,8 @@ public class FileStorageService {
     }
 
     // Method to save the uploaded files in the database.
-    public FileModel saveFilesToTheDatabase(String fileName, String fileUrl, String contentType) {
-        FileModel fileModel = new FileModel(fileName, fileUrl, contentType);
+    public FileModel saveFilesToTheDatabase(String fileName, String fileUrl, String contentType, String price, String description, String course, String name) {
+        FileModel fileModel = new FileModel(fileName, fileUrl, contentType, price, description, course, name);
         return fileRepository.save(fileModel);
     }
 
