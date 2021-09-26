@@ -74,11 +74,6 @@ public class userController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping("/studentcount")
-    public ResponseEntity<?> getStudentCount(){
-        List<User> users = loginUserRepository.getStudentList();
-        return new ResponseEntity<>(users.size(), HttpStatus.OK);
-    }
 
 
     //Add user
