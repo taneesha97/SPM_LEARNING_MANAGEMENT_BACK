@@ -1,16 +1,17 @@
 package lk.spm.learning.management.service;
-import lk.spm.learning.management.model.Class;
 import lk.spm.learning.management.model.FileModel;
+import lk.spm.learning.management.model.ImageModel;
 import lk.spm.learning.management.repository.FileRepository;
+import lk.spm.learning.management.repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.Resource;
+
+import java.awt.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -24,16 +25,16 @@ import java.util.Objects;
 @Service
 public class ImageStorageService {
     @Autowired
-    private FileRepository fileRepository;
-    private final Path fileStoragePath;
-    private final String fileStorageLocation;
+    private ImageRepository imageRepository;
+    private final Path imageStoragePath;
+    private final String imageStorageLocation;
 
     public ImageStorageService (@Value("${file.storage.location:img}") String fileStorageLocation){
-        this.fileStorageLocation = fileStorageLocation;
-        fileStoragePath = Paths.get(fileStorageLocation).toAbsolutePath().normalize();
+        this.imageStorageLocation = fileStorageLocation;
+        imageStoragePath = Paths.get(fileStorageLocation).toAbsolutePath().normalize();
 
         try {
-            Files.createDirectories(fileStoragePath);
+            Files.createDirectories(imageStoragePath);
         } catch (IOException e){
             throw new RuntimeException("File creation Issue");
         }
@@ -41,7 +42,7 @@ public class ImageStorageService {
 
     public String storeFile (MultipartFile file){
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-        Path filePath = Paths.get(fileStoragePath + "\\" + fileName);
+        Path filePath = Paths.get(imageStoragePath + "\\" + fileName);
         try {
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e){
@@ -51,7 +52,7 @@ public class ImageStorageService {
     }
 
     public Resource downloadFile(String fileName){
-        Path path = Paths.get(fileStorageLocation).toAbsolutePath().resolve(fileName);
+        Path path = Paths.get(imageStorageLocation).toAbsolutePath().resolve(fileName);
         Resource resource;
         try {
             resource = new UrlResource(path.toUri());
@@ -68,17 +69,17 @@ public class ImageStorageService {
     }
 
     // Method to save the uploaded files in the database.
-    public FileModel saveFilesToTheDatabase(String fileName, String fileUrl, String contentType, String price, String description, String course, String name) {
-        FileModel fileModel = new FileModel(fileName, fileUrl, contentType, price, description, course, name);
-        return fileRepository.save(fileModel);
+    public ImageModel saveFilesToTheDatabase(String fileName) {
+        ImageModel imageModel = new ImageModel(fileName);
+        return imageRepository.save(imageModel);
     }
 
-    public List<FileModel> getAllFiles() {
-        List<FileModel> files = fileRepository.findAll();
+    public List<ImageModel> getAllFiles() {
+        List<ImageModel> files = imageRepository.findAll();
         if(files.size() > 0){
             return files;
         } else {
-            List<FileModel> empty = new ArrayList<>();
+            List<ImageModel> empty = new ArrayList<>();
             return empty;
         }
     }

@@ -1,6 +1,7 @@
 package lk.spm.learning.management.controller;
 
 import lk.spm.learning.management.model.FileModel;
+import lk.spm.learning.management.model.ImageModel;
 import lk.spm.learning.management.service.FileStorageService;
 import lk.spm.learning.management.service.ImageStorageService;
 import org.springframework.core.io.Resource;
@@ -27,11 +28,7 @@ public class ImageController {
     }
 
     @PostMapping("single/upload/image")
-    FileModel singleFileUpload(@RequestParam("file") MultipartFile file,
-                               @RequestParam("name")String name,
-                               @RequestParam("price")String price,
-                               @RequestParam("course")String course,
-                               @RequestParam("description")String description
+    ImageModel singleFileUpload(@RequestParam("file") MultipartFile file
     ){
         String fileName = imageStorageService.storeFile(file);
         String url = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -39,8 +36,8 @@ public class ImageController {
                 .path(fileName)
                 .toUriString();
         String contentType = file.getContentType();
-        imageStorageService.saveFilesToTheDatabase(fileName, url, contentType,price, description, course, name);
-        FileModel response = new FileModel(fileName, url, contentType,price, description, course, name);
+        imageStorageService.saveFilesToTheDatabase(fileName);
+        ImageModel response = new ImageModel(fileName);
         return response;
     }
 
@@ -63,7 +60,7 @@ public class ImageController {
 
     @GetMapping("/images")
     ResponseEntity<?> getAllImages(){
-        List<FileModel> files = imageStorageService.getAllFiles();
+        List<ImageModel> files = imageStorageService.getAllFiles();
         if(files.size() > 0){
             return new ResponseEntity<>(files, HttpStatus.OK);
         } else {

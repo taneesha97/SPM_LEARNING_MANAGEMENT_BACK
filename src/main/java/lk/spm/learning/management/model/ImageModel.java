@@ -21,8 +21,7 @@ public class ImageModel {
 
     }
 
-    public ImageModel(String id, String name) {
-        this.id = id;
+    public ImageModel(String name) {
         this.name = name;
     }
 
