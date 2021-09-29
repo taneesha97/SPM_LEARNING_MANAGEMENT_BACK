@@ -3,7 +3,7 @@ package lk.spm.learning.management.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "vidoes")
+@Table(name = "videos")
 public class LectureVideos {
 
     @Id
