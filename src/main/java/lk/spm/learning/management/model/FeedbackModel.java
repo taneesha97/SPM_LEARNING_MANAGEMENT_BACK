@@ -16,6 +16,10 @@ public class FeedbackModel {
     @Column(name = "message")
     private String message;
 
+    public FeedbackModel (){
+
+    }
+
     public FeedbackModel(String name, String message) {
         this.name = name;
         this.message = message;
