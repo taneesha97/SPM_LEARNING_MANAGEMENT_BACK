@@ -10,10 +10,10 @@ public class LectureVideos {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "title")
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "title")
+    @Column(name = "url")
     private String url;
 
     public LectureVideos(){
