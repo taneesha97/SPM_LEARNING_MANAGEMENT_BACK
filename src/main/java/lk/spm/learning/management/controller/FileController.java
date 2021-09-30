@@ -1,6 +1,9 @@
 package lk.spm.learning.management.controller;
+import lk.spm.learning.management.model.ChartData;
 import lk.spm.learning.management.model.FileModel;
+import lk.spm.learning.management.repository.Impl.UserImplementation;
 import lk.spm.learning.management.service.FileStorageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,8 +21,9 @@ import java.util.List;
 @RequestMapping("/api")
 public class FileController {
 
+    @Autowired
+    UserImplementation userImplementation;
     private final FileStorageService fileStorageService;
-
     public FileController(FileStorageService fileStorageService) {
         this.fileStorageService = fileStorageService;
     }
@@ -64,6 +68,16 @@ public class FileController {
         List<FileModel> files = fileStorageService.getAllFiles();
         if(files.size() > 0){
             return new ResponseEntity<>(files, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("No Files Available", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/tutor/charts")
+    public ResponseEntity<?> getChartData() {
+        List<ChartData> data = userImplementation.getGraphData();
+        if(data.size() > 0){
+            return new ResponseEntity<>(data, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("No Files Available", HttpStatus.NOT_FOUND);
         }

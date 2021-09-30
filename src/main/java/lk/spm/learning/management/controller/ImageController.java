@@ -30,12 +30,14 @@ public class ImageController {
     @PostMapping("single/upload/image")
     ImageModel singleFileUpload(@RequestParam("file") MultipartFile file
     ){
+        // Store the file in folder.
         String fileName = imageStorageService.storeFile(file);
         String url = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/download/")
                 .path(fileName)
                 .toUriString();
         String contentType = file.getContentType();
+        //Store the record in Database.
         imageStorageService.saveFilesToTheDatabase(fileName);
         ImageModel response = new ImageModel(fileName);
         return response;
