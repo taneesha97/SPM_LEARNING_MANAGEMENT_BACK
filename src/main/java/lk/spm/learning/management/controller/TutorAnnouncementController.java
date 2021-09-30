@@ -18,7 +18,7 @@ public class TutorAnnouncementController {
     TutorAnnouncementRepository announcementRepository;
 
     //GET ANNOUNCEMENTS
-    @GetMapping("/announcements")
+    @GetMapping("/tutor/announcements")
     public ResponseEntity<?> getClasses(){
         List<AnnouncementModel> classes = announcementRepository.findAll();
         if(classes.size() > 0){
@@ -30,7 +30,7 @@ public class TutorAnnouncementController {
 
     //INSERT ANNOUNCEMENT
     //SAVE EMPLOYEE
-    @PostMapping("/announcement")
+    @PostMapping("/tutor/announcement")
     public ResponseEntity<?> createCourse(@RequestBody AnnouncementModel announcement){
         try {
             announcementRepository.save(announcement);
