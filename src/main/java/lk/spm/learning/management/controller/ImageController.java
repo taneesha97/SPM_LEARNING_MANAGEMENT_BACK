@@ -2,6 +2,7 @@ package lk.spm.learning.management.controller;
 
 import lk.spm.learning.management.model.FileModel;
 import lk.spm.learning.management.model.ImageModel;
+import lk.spm.learning.management.model.TutorCountData;
 import lk.spm.learning.management.model.User;
 import lk.spm.learning.management.repository.Impl.UserImplementation;
 import lk.spm.learning.management.repository.loginUserRepository;
@@ -35,6 +36,8 @@ public class ImageController {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    UserImplementation userImplementation;
     public ImageController(ImageStorageService imageStorageService) {
         this.imageStorageService = imageStorageService;
     }
@@ -81,7 +84,7 @@ public class ImageController {
     @GetMapping("/teachercountbyclass")
     public ResponseEntity<?> getTeacherCountByClass(){
 
-        List<ImageModel> imageModels = loginUserRepository.getTutorListFromClasses();
+        List<TutorCountData> imageModels = userImplementation.getTutorListFromClasses();
         try {
             return new ResponseEntity<>(imageModels , HttpStatus.OK);
         } catch (Exception e) {
