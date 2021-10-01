@@ -19,7 +19,7 @@ public interface loginUserRepository {
     List<User> getValidTeacherList();
     List<User> getInvalidTeacherList();
     List<User> getPendingTeacherList();
-    List<ImageModel> getTutorListFromClasses();
+//    List<ImageModel> getTutorListFromClasses();
     String getTeacherStatus(@RequestBody User user);
     String getUserID(@RequestBody User user);
 }
