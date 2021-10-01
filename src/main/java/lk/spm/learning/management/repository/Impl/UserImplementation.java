@@ -1,6 +1,8 @@
 package lk.spm.learning.management.repository.Impl;
 
+import lk.spm.learning.management.mappers.ClassTutorMapper;
 import lk.spm.learning.management.mappers.PersonMapper;
+import lk.spm.learning.management.model.ImageModel;
 import lk.spm.learning.management.model.User;
 import lk.spm.learning.management.repository.loginUserRepository;
 import lk.spm.learning.management.repository.userRepository;
@@ -70,6 +72,15 @@ public class UserImplementation implements loginUserRepository {
         List<User> users = jdbcTemplate.query(sql, new PersonMapper());
         System.out.println(users);
         return users;
+    }
+
+    @Override
+    public List<ImageModel> getTutorListFromClasses() {
+        String sql = "SELECT name,COUNT(tutor_name) FROM images GROUP BY name";
+//                "SELECT name, COUNT(tutor_name) FROM images GROUP BY name";
+        List<ImageModel> imageModels = jdbcTemplate.query(sql, new ClassTutorMapper());
+        System.out.println(imageModels);
+        return imageModels;
     }
 
     @Override
