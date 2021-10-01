@@ -21,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class ImageController {
+
     private final ImageStorageService imageStorageService;
 
     public ImageController(ImageStorageService imageStorageService) {
@@ -28,18 +29,14 @@ public class ImageController {
     }
 
     @PostMapping("single/upload/image")
-    ImageModel singleFileUpload(@RequestParam("file") MultipartFile file
+    ImageModel singleFileUpload(@RequestParam("file") MultipartFile file,
+                                @RequestParam("name")String name,
+                                @RequestParam("description")String description,
+                                @RequestParam("tutorName")String tutorName
     ){
-        // Store the file in folder.
         String fileName = imageStorageService.storeFile(file);
-        String url = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/download/")
-                .path(fileName)
-                .toUriString();
-        String contentType = file.getContentType();
-        //Store the record in Database.
-        imageStorageService.saveFilesToTheDatabase(fileName);
-        ImageModel response = new ImageModel(fileName);
+        imageStorageService.saveFilesToTheDatabase(fileName, name, description, tutorName);
+        ImageModel response = new ImageModel(name, description, tutorName,fileName);
         return response;
     }
 

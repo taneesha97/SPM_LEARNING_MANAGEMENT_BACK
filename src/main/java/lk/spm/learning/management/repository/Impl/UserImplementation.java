@@ -50,6 +50,31 @@ public class UserImplementation implements loginUserRepository {
         return users;
     }
 
+
+    @Override
+    public List<User> getValidTeacherList() {
+        String sql = "SELECT * FROM users WHERE type = 'teacher' and status = 'valid' order by id";
+        List<User> users = jdbcTemplate.query(sql, new PersonMapper());
+        System.out.println(users);
+        return users;
+    }
+
+    @Override
+    public List<User> getInvalidTeacherList() {
+        String sql = "SELECT * FROM users WHERE type = 'teacher' and status = 'invalid' order by id";
+        List<User> users = jdbcTemplate.query(sql, new PersonMapper());
+        System.out.println(users);
+        return users;
+    }
+
+    @Override
+    public List<User> getPendingTeacherList() {
+        String sql = "SELECT * FROM users WHERE type = 'teacher' and status = 'pending' order by id";
+        List<User> users = jdbcTemplate.query(sql, new PersonMapper());
+        System.out.println(users);
+        return users;
+    }
+
     @Override
     public List<User> getUserList() {
         String sql = "SELECT * FROM users order by id";
