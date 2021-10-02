@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -35,13 +38,18 @@ public class FileController {
                                @RequestParam("price")String price,
                                @RequestParam("course")String course,
                                @RequestParam("description")String description
-    ){
+    ) throws IOException {
         String fileName = fileStorageService.storeFile(file);
         String url = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/download/")
                 .path(fileName)
                 .toUriString();
         String contentType = file.getContentType();
+
+        // Testing File Path
+        String currentDirectory = System.getProperty("user.dir");
+        String fullPath = currentDirectory + "\\temp\\" + fileName;
+
         fileStorageService.saveFilesToTheDatabase(fileName, url, contentType,price, description, course, name);
         FileModel response = new FileModel(fileName, url, contentType,price, description, course, name);
         return response;
