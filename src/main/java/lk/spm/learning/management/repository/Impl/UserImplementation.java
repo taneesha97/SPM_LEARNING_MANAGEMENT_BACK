@@ -1,10 +1,7 @@
 package lk.spm.learning.management.repository.Impl;
-import lk.spm.learning.management.model.ChartData;
+import lk.spm.learning.management.model.*;
 import lk.spm.learning.management.mappers.ClassTutorMapper;
 import lk.spm.learning.management.mappers.PersonMapper;
-import lk.spm.learning.management.model.ImageModel;
-import lk.spm.learning.management.model.TutorCountData;
-import lk.spm.learning.management.model.User;
 import lk.spm.learning.management.repository.loginUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -78,13 +75,8 @@ public class UserImplementation implements loginUserRepository {
         return users;
     }
 
-
+    //get Tutor count
     public List<TutorCountData> getTutorListFromClasses() {
-//        String sql = "SELECT name,COUNT(tutor_name) FROM images GROUP BY name";
-////                "SELECT name, COUNT(tutor_name) FROM images GROUP BY name";
-//        List<ImageModel> imageModels = jdbcTemplate.query(sql, new ClassTutorMapper());
-//        System.out.println(imageModels);
-//        return imageModels;
         String sql = "SELECT name,COUNT(tutor_name) AS tutorCount FROM images GROUP BY name";
         return namedParameterJdbcTemplate.query(sql, (rs, i) -> permissionMapperNew(rs));
     }
@@ -95,6 +87,21 @@ public class UserImplementation implements loginUserRepository {
        data.setCount(rs.getString("tutorCount"));
         return data;
     }
+
+    //get Announcement count
+    public List<AnnouncementCountData> getAnnListFromClasses() {
+        String sql = "SELECT name,COUNT(header) AS count FROM announcements GROUP BY name";
+        return namedParameterJdbcTemplate.query(sql, (rs, i) -> permissionMapperAnn(rs));
+    }
+
+    private AnnouncementCountData permissionMapperAnn(ResultSet rs) throws SQLException {
+        AnnouncementCountData data = new AnnouncementCountData();
+        data.setClassName(rs.getString("name"));
+        data.setCount(rs.getString("count"));
+        return data;
+    }
+
+
     @Override
     public List<User> getUserList() {
         String sql = "SELECT * FROM users order by id";
