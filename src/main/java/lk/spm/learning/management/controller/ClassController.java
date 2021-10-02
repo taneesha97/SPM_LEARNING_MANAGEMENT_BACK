@@ -3,6 +3,7 @@ package lk.spm.learning.management.controller;
 import lk.spm.learning.management.model.Class;
 import lk.spm.learning.management.repository.ClassRepository;
 import lk.spm.learning.management.repository.CourseRepository;
+import lk.spm.learning.management.repository.loginUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +20,14 @@ public class ClassController {
     @Autowired
     ClassRepository classRepository;
 
+    @Autowired
+    private loginUserRepository loginUserRepository;
+
     //GET classes
     @GetMapping("/classes")
     public ResponseEntity<?> getClasses(){
-        List<Class> classes = classRepository.findAll();
+        //List<Class> classes = classRepository.findAll();
+        List<Class> classes = loginUserRepository.getClassList();
         if(classes.size() > 0){
             return new ResponseEntity<>(classes, HttpStatus.OK);
         } else {

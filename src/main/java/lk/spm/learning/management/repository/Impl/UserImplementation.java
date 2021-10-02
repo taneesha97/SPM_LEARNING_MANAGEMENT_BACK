@@ -1,14 +1,14 @@
 package lk.spm.learning.management.repository.Impl;
+import lk.spm.learning.management.mappers.ClassMapper;
 import lk.spm.learning.management.model.*;
-import lk.spm.learning.management.mappers.ClassTutorMapper;
 import lk.spm.learning.management.mappers.PersonMapper;
+import lk.spm.learning.management.model.Class;
 import lk.spm.learning.management.repository.loginUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.security.Permission;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -108,6 +108,14 @@ public class UserImplementation implements loginUserRepository {
         List<User> users = jdbcTemplate.query(sql, new PersonMapper());
         System.out.println(users);
         return users;
+    }
+
+    @Override
+    public List<Class> getClassList() {
+        String sql = "SELECT * FROM classes order by id";
+        List<Class> classes = jdbcTemplate.query(sql, new ClassMapper());
+        System.out.println(classes);
+        return classes;
     }
 
     @Override

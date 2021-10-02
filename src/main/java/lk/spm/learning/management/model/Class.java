@@ -26,12 +26,12 @@ public class Class {
 
     }
 
-    public Class(String name, String description, String tutorName, String image) {
-        this.name = name;
-        this.description = description;
-        this.tutorName = tutorName;
-        this.image = image;
-    }
+//    public Class(String name, String description, String tutorName, String image) {
+//        this.name = name;
+//        this.description = description;
+//        this.tutorName = tutorName;
+//        this.image = image;
+//    }
 
     public long getId() {
         return id;
